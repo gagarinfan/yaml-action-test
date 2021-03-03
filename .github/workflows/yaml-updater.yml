@@ -1,0 +1,29 @@
+name: updater
+
+on:
+  push:
+    branches:
+      - '**'
+    tags:
+      - '**'
+
+jobs:
+  test-and-publish:
+    name: Update yaml
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get backend tag
+        id: get-backend-tag
+        run: echo "::set-output name=tag::$(cat version-file)"
+
+      - name: Upgrade yaml
+        uses: fjogeleit/yaml-update-action@master
+        with:
+          valueFile: 'some-yaml.yaml'
+          propertyPath: 'server.image.tag'
+          value: ${{ steps.get-backend-tag.outputs.tag }}
+          branch: master
