@@ -20,9 +20,9 @@ jobs:
         id: get-backend-tag
         run: echo "::set-output name=tag::$(cat version-file)"
 
-    - name: Replace in yaml
-      uses: microsoft/variable-substitution@v1 
-      with:
-        files: 'some-yaml.yaml'
-      env:
-        server.image.tag: ${{ steps.get-backend-tag.outputs.tag }}
+      - name: Replace in yaml
+        uses: microsoft/variable-substitution@v1 
+        with:
+          files: 'some-yaml.yaml'
+        env:
+          server.image.tag: ${{ steps.get-backend-tag.outputs.tag }}
