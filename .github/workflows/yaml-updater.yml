@@ -20,10 +20,9 @@ jobs:
         id: get-backend-tag
         run: echo "::set-output name=tag::$(cat version-file)"
 
-      - name: Upgrade yaml
-        uses: fjogeleit/yaml-update-action@master
-        with:
-          valueFile: 'some-yaml.yaml'
-          propertyPath: 'server.image.tag'
-          value: ${{ steps.get-backend-tag.outputs.tag }}
-          branch: master
+    - name: Replace in yaml
+      uses: microsoft/variable-substitution@v1 
+      with:
+        files: 'some-yaml.yaml'
+      env:
+        server.image.tag: ${{ steps.get-backend-tag.outputs.tag }}
