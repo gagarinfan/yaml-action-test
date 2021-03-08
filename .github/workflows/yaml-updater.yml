@@ -16,10 +16,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Check conditions
+      - name: CHeck conditions to deploy on dev
         id: deploy-to-dev
         if: startsWith(github.ref, 'refs/tags/v') != true && github.ref == 'refs/heads/main'
-        run: echo ""::set-output name=match::true"
+        run: echo "::set-output name=match::true"
 
       - name: Get backend tag
         id: get-backend-tag
