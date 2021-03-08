@@ -19,9 +19,8 @@ jobs:
       - name: Check conditions to deploy on dev
         id: deploy-to-dev
         if: |
-          !startsWith(github.ref, 'refs/tags/v') &&
           github.ref == 'refs/heads/main' &&
-          !contains(github.event.head_commit.message, 'Bump version')
+          contains(github.event.head_commit.message, 'Bump version')
         run: echo "::set-output name=match::true"
 
       - name: Get backend tag
