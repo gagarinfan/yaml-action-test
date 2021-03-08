@@ -28,7 +28,7 @@ jobs:
           server.image.tag: ${{ steps.get-backend-tag.outputs.tag }}
 
       - name: Commit
-        if: startsWith(github.ref, 'refs/tags/v') != true
+        if: startsWith(github.ref, 'refs/tags/v') != true && startsWith(github.event.comment.body, 'Bump version:')
         run: |
           git config --global user.name 'Your Name'
           git config --global user.email 'your-username@users.noreply.github.com'
