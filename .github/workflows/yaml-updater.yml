@@ -16,6 +16,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Check conditions
+        id: deploy-to-dev
+        run: |
+          startsWith(github.ref, 'refs/tags/v') != true && github.ref == 'refs/heads/feature/main'; then
+            echo ::set-output name=match::true
+          fi
+
       - name: Get backend tag
         id: get-backend-tag
         run: echo "::set-output name=tag::$(cat version-file)"
@@ -28,7 +35,7 @@ jobs:
           server.image.tag: ${{ steps.get-backend-tag.outputs.tag }}
 
       - name: Commit
-        if: startsWith(github.ref, 'refs/tags/v') != true && startsWith(github.event.comment.body, 'Bump version:')
+        if: steps.deploy-to-dev.outputs.match == 'true'
         run: |
           git config --global user.name 'Your Name'
           git config --global user.email 'your-username@users.noreply.github.com'
