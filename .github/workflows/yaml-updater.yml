@@ -16,9 +16,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: CHeck conditions to deploy on dev
+      - name: Check conditions to deploy on dev
         id: deploy-to-dev
-        if: startsWith(github.ref, 'refs/tags/v') != true && github.ref == 'refs/heads/main' && startsWith(github.event.comment.body, 'Bump version:*')
+        if: startsWith(github.ref, 'refs/tags/v') != true && github.ref == 'refs/heads/main' && startsWith(github.event.comment.body, 'Bump version')
         run: echo "::set-output name=match::true"
 
       - name: Get backend tag
