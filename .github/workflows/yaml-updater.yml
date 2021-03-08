@@ -22,10 +22,12 @@ jobs:
         run: echo "::set-output name=match::true"
 
       - name: Get backend tag
+        if: steps.deploy-to-dev.outputs.match == 'true'
         id: get-backend-tag
         run: echo "::set-output name=tag::$(cat version-file)"
 
       - name: Replace in yaml
+        if: steps.deploy-to-dev.outputs.match == 'true'
         uses: microsoft/variable-substitution@v1 
         with:
           files: 'some-yaml.yaml'
