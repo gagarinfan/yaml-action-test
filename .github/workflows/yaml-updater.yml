@@ -30,7 +30,7 @@ jobs:
         run: echo "::set-output name=tag::$(cat version-file)"
 
       - name: Replace in yaml
-        if: steps.deploy-to-dev.outputs.match == 'true'
+        if: steps.deploy-to-dev.outputs.match
         uses: microsoft/variable-substitution@v1 
         with:
           files: 'some-yaml.yaml'
@@ -38,7 +38,7 @@ jobs:
           server.image.tag: ${{ steps.get-backend-tag.outputs.tag }}
 
       - name: Commit
-        if: steps.deploy-to-dev.outputs.match == 'true'
+        if: steps.deploy-to-dev.outputs.match
         run: |
           git config --global user.name 'Your Name'
           git config --global user.email 'your-username@users.noreply.github.com'
