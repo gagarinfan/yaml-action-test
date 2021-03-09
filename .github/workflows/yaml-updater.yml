@@ -22,7 +22,7 @@ jobs:
           file_or_dir: 'some-yaml.yaml'
           
       - name: Run diff
-        run: git diff --name-only HEAD HEAD~1
+        run: git diff --name-only origin/main HEAD~1
 
       - name: Check conditions to deploy on dev
         id: deploy-to-dev
