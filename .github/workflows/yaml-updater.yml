@@ -15,10 +15,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
       - name: Validate yaml
-        uses: nwisbeta/validate-yaml-schema@v1.0.3
+        uses: ibiqlik/action-yamllint@v3
         with:
-          settingsFile: 'some-yaml.yaml'
+          file_or_dir: 'some-yaml.yaml'
 
       - name: Check conditions to deploy on dev
         id: deploy-to-dev
