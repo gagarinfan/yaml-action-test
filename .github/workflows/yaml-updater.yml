@@ -56,7 +56,8 @@ jobs:
       #     git commit -am "Automated report"
       #     git push --force
 
-      - name: colmose/push-bot@v1.0.0
+      - name: Push to main
+        uses: colmose/push-bot@v1.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch_name: 'main'
