@@ -24,10 +24,12 @@ jobs:
       - name: Check conditions to deploy on dev
         id: deploy-to-dev
         if: |
-          [ $(git diff --name-only main $(git rev-parse HEAD) | wc -l) -eq 2 ] && [ $(git diff --name-only main $(git rev-parse HEAD) | grep version-file) ]
           github.ref == 'refs/heads/main' &&
           !contains(github.event.head_commit.message, 'Bump version')
-        run: echo "::set-output name=match::true"
+        run: |
+          if [ $(git diff --name-only main HEAD HEAD~1 | wc -l) -eq 1 ] && [ $(git diff --name-only main HEAD HEAD~1 | grep some-yaml) ];then
+            echo "::set-output name=match::true"
+          fi
 
       - name: Get backend tag
         if: steps.deploy-to-dev.outputs.match
