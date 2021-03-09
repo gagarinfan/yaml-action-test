@@ -15,6 +15,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Validate yaml
+        uses: nwisbeta/validate-yaml-schema@v1.0.3
+        with:
+          settingsFile: 'some-yaml.yaml'
 
       - name: Check conditions to deploy on dev
         id: deploy-to-dev
