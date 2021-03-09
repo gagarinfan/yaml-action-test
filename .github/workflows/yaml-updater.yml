@@ -48,10 +48,16 @@ jobs:
         env:
           server.image.tag: ${{ steps.get-backend-tag.outputs.tag }}
 
-      - name: Commit
-        if: steps.deploy-to-dev.outputs.match
-        run: |
-          git config --global user.name 'Your Name'
-          git config --global user.email 'your-username@users.noreply.github.com'
-          git commit -am "Automated report"
-          git push --force
+      # - name: Commit
+      #   if: steps.deploy-to-dev.outputs.match
+      #   run: |
+      #     git config --global user.name 'Your Name'
+      #     git config --global user.email 'your-username@users.noreply.github.com'
+      #     git commit -am "Automated report"
+      #     git push --force
+
+      - name: colmose/push-bot@v1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch_name: 'main'
+          bot_name: 'CI-bot'
