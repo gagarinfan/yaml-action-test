@@ -18,11 +18,6 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Validate yaml
-        uses: ibiqlik/action-yamllint@v3
-        with:
-          file_or_dir: 'some-yaml.yaml'
-
       - name: Check conditions to deploy on dev
         id: deploy-to-dev
         if: |
@@ -34,6 +29,12 @@ jobs:
           else
             echo "::set-output name=match::true"
           fi
+
+      - name: Validate yaml
+        if: steps.deploy-to-dev.outputs.match
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: 'some-yaml.yaml'
 
       - name: Get backend tag
         if: steps.deploy-to-dev.outputs.match
