@@ -6,6 +6,8 @@ on:
       - '**'
     tags:
       - '**'
+    paths-ignore:
+    - 'some-yaml.yaml'
 
 jobs:
   test-and-publish:
