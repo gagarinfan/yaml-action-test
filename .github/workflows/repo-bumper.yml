@@ -33,14 +33,9 @@ jobs:
         env:
           version: ${{ steps.get-backend-tag.outputs.tag }}
 
-      - name: Commit updated tag to values file
-        run: |
-          cd yaml-action-test-main
-          git config --global user.name 'automate'
-          git config --global user.email 'automate@no-reply.com'
-
-
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
           path: yaml-action-test-main
+          token: ${{ secrets.PAT }}
+          branch: feature/backend-tag-${{ steps.get-backend-tag.outputs.tag }}
