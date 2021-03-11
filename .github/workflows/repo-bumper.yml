@@ -14,6 +14,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Show values
+        run: |
+          echo ${{ github.ref }}
+          echo ${{ github.event.head_commit.message }}
+
       - name: Check conditions to deploy to dev
         id: deploy-to-dev
         if: |
