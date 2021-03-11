@@ -38,5 +38,6 @@ jobs:
           cd yaml-action-test-main
           git config --global user.name 'automate'
           git config --global user.email 'automate@no-reply.com'
+          git checkout -b feature/update-backend-${{ steps.get-backend-tag.outputs.tag }}
           git commit -am "Update backend image version to ${{ steps.get-backend-tag.outputs.tag }}"
-          git push
+          git push -u origin feature/update-backend-${{ steps.get-backend-tag.outputs.tag }}
