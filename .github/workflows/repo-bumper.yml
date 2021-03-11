@@ -44,3 +44,4 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           path: yaml-action-test-main
+          token: ${{ secrets.PAT }}
