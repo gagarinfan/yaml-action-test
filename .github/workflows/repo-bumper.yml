@@ -20,7 +20,9 @@ jobs:
       - name: Get backend tag
         id: get-backend-tag
         #//run: echo "::set-output name=tag::$(cat version-file)"
-        run: echo "::set-output name=tag::$(git rev-parse --short HEAD)"
+        run: |
+          echo "::set-output name=tag::$(git rev-parse --short HEAD)"
+          echo "::set-output name=run_url::$($GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})"
 
       - name: Checkout applications-infra repository
         uses: actions/checkout@v2
@@ -45,4 +47,4 @@ jobs:
           branch: feature/backend-tag-${{ steps.get-backend-tag.outputs.tag }}
           title: Update backend image tag to ${{ steps.get-backend-tag.outputs.tag }}
           commit-message: Update backend image tag to ${{ steps.get-backend-tag.outputs.tag }}
-          body: Triggered by CI process. See "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          body: Triggered by CI process. See ${{ steps.get-backend-tag.outputs.run_url }}
