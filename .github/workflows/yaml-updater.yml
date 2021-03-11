@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - '**'
+  pull_request:
+    branches:
+      - '**'
 
 jobs:
   test-and-publish:
@@ -47,10 +50,19 @@ jobs:
         env:
           server.image.tag: ${{ steps.get-backend-tag.outputs.tag }}
 
-      - name: Push to main
-        uses: colmose/push-bot@v1.0.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch_name: 'main'
-          bot_name: 'CI-bot'
+      # - name: Push to main
+      #   uses: colmose/push-bot@v1.0.0
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     branch_name: 'main'
+      #     bot_name: 'CI-bot'
  
+      - name: Create PR to main
+        if: steps.deploy-to-dev.outputs.match
+        run:
+          git config --global user.name 'automate'
+          git config --global user.email 'automate@no-reply.com'
+          git git checkout -b feature/update-backend-${{ steps.get-backend-tag.outputs.tag }}
+          git commit -am "Update backend image version to ${{ steps.get-backend-tag.outputs.tag }}"
+          git push -u origin feature/update-backend-${{ steps.get-backend-tag.outputs.tag }}
+          gh pr create --title "Upgrade to ${{ steps.get-backend-tag.outputs.tag }} version" --body "somebody"
