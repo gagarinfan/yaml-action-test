@@ -14,6 +14,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Get env
+        run: env
+
       - name: Get backend tag
         id: get-backend-tag
         run: echo "::set-output name=tag::$(cat version-file)"
