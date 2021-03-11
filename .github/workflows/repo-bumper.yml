@@ -15,7 +15,6 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Get backend tag
-        if: steps.deploy-to-dev.outputs.match
         id: get-backend-tag
         run: echo "::set-output name=tag::$(cat version-file)"
 
