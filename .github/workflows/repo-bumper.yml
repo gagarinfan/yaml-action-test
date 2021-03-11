@@ -46,3 +46,4 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           path: yaml-action-test-main
+          branch: feature/update-backend-${{ steps.get-backend-tag.outputs.tag }}
