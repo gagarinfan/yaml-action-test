@@ -16,6 +16,10 @@ jobs:
         with:
           fetch-depth: 2
 
+      
+      - name: Show refs
+        run: echo ${{ github.ref }}
+
       - name: Check conditions to deploy on dev
         id: deploy-to-dev
         if: |
