@@ -41,4 +41,3 @@ jobs:
           branch: feature/backend-tag-${{ steps.get-backend-tag.outputs.tag }}
           title: Update backend image tag to ${{ steps.get-backend-tag.outputs.tag }}
           commit-message: Update backend image tag to ${{ steps.get-backend-tag.outputs.tag }}
-          author: ${{ github.actor }}
