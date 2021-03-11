@@ -19,7 +19,8 @@ jobs:
 
       - name: Get backend tag
         id: get-backend-tag
-        run: echo "::set-output name=tag::$(cat version-file)"
+        #//run: echo "::set-output name=tag::$(cat version-file)"
+        run: "::set-output name=tag::$(git rev-parse --short HEAD)"
 
       - name: Checkout applications-infra repository
         uses: actions/checkout@v2
