@@ -3,7 +3,7 @@ name: updater
 on:
   push:
     branches:
-      - '**'
+      - 'aaa'
 
 jobs:
   test-and-publish:

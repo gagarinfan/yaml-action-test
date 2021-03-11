@@ -1,0 +1,43 @@
+name: bumper
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  bump:
+    name: Bump yaml
+    runs-on: ubuntu-latest
+ 
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get backend tag
+        if: steps.deploy-to-dev.outputs.match
+        id: get-backend-tag
+        run: echo "::set-output name=tag::$(cat version-file)"
+
+      - name: Checkout applications-infra repository
+        uses: actions/checkout@v2
+        with:
+          repository: gagarinfan/yaml-action-test-main
+          ref: master
+          token: ${{ secrets.PAT }}
+          path: yaml-action-test-main
+
+      - name: Bump version in dev umbrella chart
+        uses: microsoft/variable-substitution@v1 
+        with:
+          files: 'yaml-action-test-main/some-file.yaml'
+        env:
+          version: ${{ steps.get-backend-tag.outputs.tag }}
+
+      - name: Commit updated tag to values file
+        run: |
+          cd yaml-action-test-main
+          git config --global user.name 'automate'
+          git config --global user.email 'automate@no-reply.com'
+          git commit -am "Update backend image version to ${{ steps.get-backend-tag.outputs.tag }}"
+          git push
