@@ -14,13 +14,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Show refs
-        run: echo ${{ github.ref }}
-
-      - name: Get env
-        run: env
+      - name: Check conditions to deploy to dev
+        id: deploy-to-dev
+        if: |
+          github.ref == 'refs/heads/main' &&
+          !contains(github.event.head_commit.message, 'Bump version')
+        run: |
+          echo "::set-output name=match::true"
 
       - name: Get backend tag
+        if: steps.deploy-to-dev.outputs.match
         id: get-backend-tag
         #//run: echo "::set-output name=tag::$(cat version-file)"
         run: |
@@ -28,6 +31,7 @@ jobs:
           echo "::set-output name=run_url::$(echo ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})"
 
       - name: Checkout applications-infra repository
+        if: steps.deploy-to-dev.outputs.match
         uses: actions/checkout@v2
         with:
           repository: gagarinfan/yaml-action-test-main
@@ -36,6 +40,7 @@ jobs:
           path: yaml-action-test-main
 
       - name: Bump version in dev umbrella chart
+        if: steps.deploy-to-dev.outputs.match
         uses: microsoft/variable-substitution@v1 
         with:
           files: 'yaml-action-test-main/some-file.yaml'
@@ -43,6 +48,7 @@ jobs:
           version: ${{ steps.get-backend-tag.outputs.tag }}
 
       - name: Create Pull Request
+        if: steps.deploy-to-dev.outputs.match
         uses: peter-evans/create-pull-request@v3
         with:
           path: yaml-action-test-main
