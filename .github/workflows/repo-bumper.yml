@@ -41,4 +41,8 @@ jobs:
           git checkout -b feature/update-backend-${{ steps.get-backend-tag.outputs.tag }}
           git commit -am "Update backend image version to ${{ steps.get-backend-tag.outputs.tag }}"
           git push -u origin feature/update-backend-${{ steps.get-backend-tag.outputs.tag }}
-          gh pr create --title "Upgrade to ${{ steps.get-backend-tag.outputs.tag }} version" --body "somebody"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          path: yaml-action-test-main
