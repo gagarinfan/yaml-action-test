@@ -41,3 +41,4 @@ jobs:
           git checkout -b feature/update-backend-${{ steps.get-backend-tag.outputs.tag }}
           git commit -am "Update backend image version to ${{ steps.get-backend-tag.outputs.tag }}"
           git push -u origin feature/update-backend-${{ steps.get-backend-tag.outputs.tag }}
+          gh pr create --title "Upgrade to ${{ steps.get-backend-tag.outputs.tag }} version" --body "somebody"
