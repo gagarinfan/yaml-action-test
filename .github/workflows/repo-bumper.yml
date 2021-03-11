@@ -13,8 +13,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
       - name: Show refs
         run: echo ${{ github.ref }}
+
       - name: Get env
         run: env
 
